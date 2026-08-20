@@ -326,7 +326,10 @@ def main(args=None):
         pass
     finally:
         node.destroy_node()
-        rclpy.shutdown()
+        # Ctrl+C already shuts the context down via rclpy's signal
+        # handler, so an unguarded shutdown() raises on ROS 2 Jazzy.
+        if rclpy.ok():
+            rclpy.shutdown()
 
 
 if __name__ == '__main__':

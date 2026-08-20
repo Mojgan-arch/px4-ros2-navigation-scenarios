@@ -386,7 +386,10 @@ def main(args=None):
             node.get_logger().info('Saving map before shutdown...')
             node.save_map_to_disk()
         node.destroy_node()
-        rclpy.shutdown()
+        # Ctrl+C already shuts the context down via rclpy's signal
+        # handler, so an unguarded shutdown() raises on ROS 2 Jazzy.
+        if rclpy.ok():
+            rclpy.shutdown()
 
 
 if __name__ == '__main__':
