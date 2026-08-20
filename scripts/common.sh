@@ -70,6 +70,43 @@ sim_launch_cmd() {
     fi
 }
 
+# PX4 resolves PX4_GZ_WORLD against its OWN worlds directory and does not
+# consult GZ_SIM_RESOURCE_PATH for it, so a world that lives in this repository
+# is invisible to it until it appears there. Symlink ours in — a link rather
+# than a copy, so editing worlds/*.sdf here takes effect immediately, and
+# nothing is duplicated inside the PX4 checkout.
+link_worlds_into_px4() {
+    local dest="$PX4_DIR/Tools/simulation/gz/worlds"
+
+    if [ ! -d "$dest" ]; then
+        echo "WARNING: PX4 worlds directory not found at $dest." >&2
+        echo "         '$WORLD' will not be found unless you place it there." >&2
+        return 0
+    fi
+
+    local w name
+    for w in "$REPO_DIR"/worlds/*.sdf; do
+        [ -e "$w" ] || continue
+        name="$(basename "$w")"
+
+        if [ -L "$dest/$name" ] && [ "$(readlink -f "$dest/$name")" = "$(readlink -f "$w")" ]; then
+            continue
+        fi
+
+        if [ -e "$dest/$name" ] && [ ! -L "$dest/$name" ]; then
+            echo "NOTE: $dest/$name already exists and was left untouched." >&2
+            continue
+        fi
+
+        if ln -sfn "$w" "$dest/$name" 2>/dev/null; then
+            echo "Linked $name into the PX4 worlds directory."
+        else
+            echo "WARNING: could not link $name into $dest (not writable?)." >&2
+            echo "         Copy it there by hand, or set SIM_LAUNCH_CMD." >&2
+        fi
+    done
+}
+
 # Micro XRCE-DDS agent: the PX4 <-> ROS 2 transport.
 DDS_AGENT_CMD="${DDS_AGENT_CMD:-MicroXRCEAgent udp4 -p 8888}"
 
@@ -238,6 +275,12 @@ run_scenario() {
     local extra_args="$*"
 
     check_prerequisites || return 1
+
+    # Only meaningful for the default PX4 bring-up; a custom SIM_LAUNCH_CMD is
+    # responsible for finding its own world.
+    if [ -z "$SIM_LAUNCH_CMD" ]; then
+        link_worlds_into_px4
+    fi
 
     echo "Scenario : $scenario"
     echo "World    : $WORLD"
