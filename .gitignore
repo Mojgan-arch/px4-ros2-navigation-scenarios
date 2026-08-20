@@ -1,0 +1,32 @@
+# ROS 2 / colcon
+build/
+install/
+log/
+.colcon_install_layout
+COLCON_IGNORE
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Office lock files
+.~lock.*#
+
+# Runtime output
+*.log
+*.csv
+*.bag
+rosbag2_*/
+
+# OS
+.DS_Store
+Thumbs.db

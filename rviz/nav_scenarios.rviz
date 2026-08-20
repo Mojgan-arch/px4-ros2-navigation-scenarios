@@ -1,0 +1,250 @@
+# RViz configuration for px4-ros2-navigation-scenarios.
+# Displays only the topics this package publishes.
+Panels:
+- Class: rviz_common/Displays
+  Name: Displays
+  Property Tree Widget:
+    Expanded:
+    - /Global Options1
+    Splitter Ratio: 0.5
+  Tree Height: 540
+- Class: rviz_common/Selection
+  Name: Selection
+- Class: rviz_common/Tool Properties
+  Expanded: []
+  Name: Tool Properties
+  Splitter Ratio: 0.6
+- Class: rviz_common/Views
+  Expanded:
+  - /Current View1
+  Name: Views
+  Splitter Ratio: 0.5
+Visualization Manager:
+  Class: ''
+  Displays:
+  - Alpha: 0.5
+    Cell Size: 1.0
+    Class: rviz_default_plugins/Grid
+    Color: 160; 160; 164
+    Enabled: true
+    Line Style:
+      Line Width: 0.03
+      Value: Lines
+    Name: Grid
+    Normal Cell Count: 0
+    Offset:
+      X: 0.0
+      Y: 0.0
+      Z: 0.0
+    Plane: XY
+    Plane Cell Count: 20
+    Reference Frame: <Fixed Frame>
+  - Class: rviz_default_plugins/TF
+    Enabled: false
+    Frame Timeout: 15.0
+    Frames:
+      All Enabled: true
+    Marker Scale: 1.0
+    Name: TF
+    Show Arrows: true
+    Show Axes: true
+    Show Names: true
+    Tree: {}
+    Update Interval: 0.0
+  - Alpha: 1.0
+    Class: rviz_default_plugins/PointCloud2
+    Color: 255; 255; 255
+    Color Transformer: FlatColor
+    Decay Time: 0.0
+    Enabled: true
+    Name: LiDAR
+    Queue Size: 10
+    Selectable: true
+    Size (m): 0.03
+    Style: Flat Squares
+    Topic:
+      Depth: 5
+      Durability Policy: Volatile
+      History Policy: Keep Last
+      Reliability Policy: Best Effort
+      Value: /nav/points
+  - Angle Tolerance: 0.1
+    Class: rviz_default_plugins/Odometry
+    Covariance:
+      Orientation:
+        Alpha: 0.5
+        Color: 255; 255; 127
+        Frame: Local
+        Offset: 1.0
+        Scale: 1.0
+      Position:
+        Alpha: 0.3
+        Color: 204; 51; 204
+        Scale: 1.0
+      Value: false
+    Enabled: true
+    Keep: 50
+    Name: Drone Odometry
+    Position Tolerance: 0.1
+    Shape:
+      Alpha: 1.0
+      Color: 255; 25; 0
+      Head Length: 0.1
+      Head Radius: 0.06
+      Shaft Length: 0.2
+      Shaft Radius: 0.02
+      Value: Arrow
+    Topic:
+      Depth: 5
+      Durability Policy: Volatile
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+      Value: /drone_odom
+  - Alpha: 1.0
+    Buffer Length: 1
+    Class: rviz_default_plugins/Path
+    Color: 25; 255; 25
+    Enabled: true
+    Line Style: Lines
+    Line Width: 0.03
+    Name: Flown Path
+    Offset:
+      X: 0.0
+      Y: 0.0
+      Z: 0.0
+    Pose Style: None
+    Topic:
+      Depth: 5
+      Durability Policy: Volatile
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+      Value: /drone_path
+  - Alpha: 1.0
+    Buffer Length: 1
+    Class: rviz_default_plugins/Path
+    Color: 255; 170; 0
+    Enabled: true
+    Line Style: Lines
+    Line Width: 0.03
+    Name: Planned Path
+    Offset:
+      X: 0.0
+      Y: 0.0
+      Z: 0.0
+    Pose Style: None
+    Topic:
+      Depth: 5
+      Durability Policy: Volatile
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+      Value: /planned_path
+  - Class: rviz_default_plugins/MarkerArray
+    Enabled: true
+    Name: Waypoints
+    Namespaces: {}
+    Topic:
+      Depth: 5
+      Durability Policy: Volatile
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+      Value: /waypoint_markers
+  - Class: rviz_default_plugins/MarkerArray
+    Enabled: true
+    Name: Mission Markers
+    Namespaces: {}
+    Topic:
+      Depth: 5
+      Durability Policy: Volatile
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+      Value: /mission_markers
+  - Class: rviz_default_plugins/MarkerArray
+    Enabled: true
+    Name: Coverage Pattern
+    Namespaces: {}
+    Topic:
+      Depth: 5
+      Durability Policy: Volatile
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+      Value: /coverage_pattern
+  - Class: rviz_default_plugins/MarkerArray
+    Enabled: true
+    Name: Grid Obstacles
+    Namespaces: {}
+    Topic:
+      Depth: 5
+      Durability Policy: Volatile
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+      Value: /grid_obstacles
+  - Class: rviz_default_plugins/MarkerArray
+    Enabled: true
+    Name: Persistent Map
+    Namespaces: {}
+    Topic:
+      Depth: 5
+      Durability Policy: Volatile
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+      Value: /persistent_map
+  - Class: rviz_default_plugins/MarkerArray
+    Enabled: true
+    Name: Target
+    Namespaces: {}
+    Topic:
+      Depth: 5
+      Durability Policy: Volatile
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+      Value: /target_marker
+  - Class: rviz_default_plugins/MarkerArray
+    Enabled: true
+    Name: Visualization
+    Namespaces: {}
+    Topic:
+      Depth: 5
+      Durability Policy: Volatile
+      History Policy: Keep Last
+      Reliability Policy: Reliable
+      Value: /viz_markers
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: map
+    Frame Rate: 30
+  Name: root
+  Tools:
+  - Class: rviz_default_plugins/MoveCamera
+  - Class: rviz_default_plugins/Select
+  - Class: rviz_default_plugins/FocusCamera
+  - Class: rviz_default_plugins/Measure
+    Line color: 128; 128; 0
+  - Class: rviz_default_plugins/SetGoal
+    Topic:
+      Value: /goal_pose
+  - Class: rviz_default_plugins/PublishPoint
+    Single click: true
+    Topic:
+      Value: /clicked_point
+  Transformation:
+    Current:
+      Class: rviz_default_plugins/TF
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 22.0
+      Focal Point:
+        X: 0.0
+        Y: 0.0
+        Z: 0.0
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.05
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.01
+      Pitch: 0.68
+      Target Frame: <Fixed Frame>
+      Value: Orbit (rviz)
+      Yaw: 0.75
+    Saved: null

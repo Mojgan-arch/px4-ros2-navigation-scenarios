@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Scenario 05: Keep it inside a permitted area
+#
+# Enforce a boundary and react when the drone approaches or crosses it.
+#
+# When you need it: Flying near property lines, restricted airspace, or people.
+#
+# Runs the scenario in simulation: PX4 SITL, the DDS agent, the Gazebo bridge
+# and the scenario launch file, in a multi-pane terminal.
+#
+# On real hardware do not use this script. Run the launch file directly:
+#
+#     ros2 launch waypoint_navigator geofence.launch.py \
+#         interface_config:=/path/to/my_vehicle.yaml
+
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+source "$REPO_ROOT/scripts/common.sh"
+
+WORLD="${WORLD:-walled_arena}"
+
+run_scenario geofence "$@"

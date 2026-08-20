@@ -1,0 +1,37 @@
+# Interface profile: PX4 SITL + Gazebo (the default)
+#
+# This is what every scenario uses unless you pass interface_config:=... to
+# the launch file. It wires the navigation stack to this package's own
+# px4_offboard_interface node, which is the only component that speaks PX4.
+#
+# The "/**:" wildcard applies these values to every node in the stack, so a
+# topic only has to be named once.
+
+/**:
+  ros__parameters:
+
+    topics:
+      # Commands the navigation nodes send to the vehicle. In simulation
+      # these are consumed by px4_offboard_interface_node.
+      cmd_vel: /nav/cmd_vel
+      arm: /nav/arm
+
+      # Vehicle state, published by PX4 over Micro XRCE-DDS.
+      # If `ros2 topic list` shows these without the _v1 suffix, your PX4
+      # predates the versioned-topic change — drop the suffix here.
+      local_position: /fmu/out/vehicle_local_position_v1
+      battery: /fmu/out/battery_status_v1
+
+      # Perception. In simulation the Gazebo bridge publishes the LiDAR;
+      # remap whatever your bridge produces onto /nav/points.
+      pointcloud: /nav/points
+
+      # Operator interface (RViz tools publish these).
+      goal_pose: /goal_pose
+      clicked_point: /clicked_point
+      nav_state: /nav_state
+
+    frames:
+      map: map
+      odom: odom
+      base_link: base_link

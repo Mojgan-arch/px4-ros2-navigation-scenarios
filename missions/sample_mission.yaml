@@ -1,0 +1,49 @@
+# Sample mission file (tuned for the 10x10 m walled arena world)
+# Walls at x = ±5 and y = ±5 with a front opening at x=+5 (y in -1..+1).
+# Waypoints stay >=2 m from every wall so reactive_avoidance does not push
+# the drone back as it tries to reach them.
+
+mission:
+  name: "Sample Inspection Mission"
+  description: "Visit 6 points around origin and take photos"
+  default_altitude: 2.5         # matches px4_offboard_interface takeoff_altitude
+  default_hover_time: 2.0
+  return_home_at_end: true
+  # If false: drone hovers at last point. If true: auto RTH + land.
+
+# List of waypoints (executed in order).
+# Each waypoint can override default_altitude and default_hover_time.
+# action options: "capture", "scan" (long hover), "pass" (no extra hover)
+waypoints:
+  - name: "East"
+    x: 3.0
+    y: 0.0
+    action: pass
+
+  - name: "North-East"
+    x: 3.0
+    y: 3.0
+    hover_time: 3.0
+    action: capture
+
+  - name: "North"
+    x: 0.0
+    y: 3.0
+    action: capture
+
+  - name: "North-West"
+    x: -3.0
+    y: 3.0
+    hover_time: 5.0
+    action: scan
+
+  - name: "West"
+    x: -3.0
+    y: 0.0
+    action: capture
+
+  - name: "South"
+    x: 0.0
+    y: -3.0
+    hover_time: 4.0
+    action: capture
