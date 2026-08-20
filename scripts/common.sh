@@ -215,6 +215,10 @@ run_panes_terminator() {
 
     # A dedicated config file in a temp dir: the user's own
     # ~/.config/terminator/config is never read or written.
+    #
+    # Terminator's layout is a binary tree: a Window accepts exactly ONE child,
+    # and every split is a Paned node with exactly two children.
+    local n=${#titles[@]}
     {
         echo '[global_config]'
         echo '[keybindings]'
@@ -226,13 +230,37 @@ run_panes_terminator() {
         echo '    [[[window0]]]'
         echo '      type = Window'
         echo '      parent = ""'
-        for i in "${!titles[@]}"; do
-            echo "    [[[terminal$i]]]"
+        echo '      order = 0'
+        if [ "$n" -eq 1 ]; then
+            echo '    [[[terminal0]]]'
             echo '      type = Terminal'
             echo '      parent = window0'
-            echo "      command = \"$workdir/pane_$i.sh\""
-            echo "      title = \"${titles[$i]}\""
-        done
+            echo '      order = 0'
+            echo "      command = \"$workdir/pane_0.sh\""
+            echo "      title = \"${titles[0]}\""
+        else
+            local parent ptype
+            for ((i = 0; i < n - 1; i++)); do
+                if [ "$i" -eq 0 ]; then parent="window0"; else parent="paned$((i - 1))"; fi
+                if [ $((i % 2)) -eq 0 ]; then ptype="HPaned"; else ptype="VPaned"; fi
+                echo "    [[[paned$i]]]"
+                echo "      type = $ptype"
+                echo "      parent = $parent"
+                if [ "$i" -eq 0 ]; then echo '      order = 0'; else echo '      order = 1'; fi
+                echo "    [[[terminal$i]]]"
+                echo '      type = Terminal'
+                echo "      parent = paned$i"
+                echo '      order = 0'
+                echo "      command = \"$workdir/pane_$i.sh\""
+                echo "      title = \"${titles[$i]}\""
+            done
+            echo "    [[[terminal$((n - 1))]]]"
+            echo '      type = Terminal'
+            echo "      parent = paned$((n - 2))"
+            echo '      order = 1'
+            echo "      command = \"$workdir/pane_$((n - 1)).sh\""
+            echo "      title = \"${titles[$((n - 1))]}\""
+        fi
         echo '[plugins]'
     } > "$config"
 
